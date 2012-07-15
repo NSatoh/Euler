@@ -47,8 +47,10 @@ for a in range(1,10):
 #  a  ×   b   =  ab 
 for a in perm(range(1,10),2):
     b_list = range(1,10)
-    b_list.remove(a % 10)
-    b_list.remove(int(math.floor(a/10)))
+    #b_list.remove(a % 10)
+    #b_list.remove(int(math.floor(a/10)))
+    for i in str(a):    # 文字列に in が使えるというKimからの天才的助言
+        b_list.remove(i)
     for b in perm(b_list,3):
         if is_FromOneToNine(a,b):
             if a*b in prod_list:
