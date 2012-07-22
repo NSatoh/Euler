@@ -7,7 +7,11 @@ Created on 2012/07/21
 
 
 
-NSmath_name_list = []
+NSmath_name = []
+NSmath_variable = []
+NSmath_return = []
+NSmath_require = []
+
 
 #---------------------------------------------------------------------------------
 
@@ -18,8 +22,10 @@ def Euclid(a,b):
     else:
         return Euclid(b,a%b)
 
-NSmath_name_list += ["■ Euclid(a,b) ; int a, b \n  --> num gcd(a,b)"]
-
+NSmath_name += ["Euclid(a,b)"]
+NSmath_variable += ["int a, b"]
+NSmath_return += ["num gcd(a,b)"]
+NSmath_require += [0]
 
 # 拡張ユークリッド互除法： a,b --> x,y; ax + by = g(=gcd(a,b))  
 def extendedEuclid(a,b,x0,x1,y0,y1):     # [x0,x1]=[1,0], [y0,y1]=[0,1] からスタートを想定
@@ -32,8 +38,10 @@ def extendedEuclid(a,b,x0,x1,y0,y1):     # [x0,x1]=[1,0], [y0,y1]=[0,1] から�
 def exEuclid(a,b):
     return extendedEuclid(a,b,1,0,0,1)
 
-NSmath_name_list += ["■ exEuclid(a,b) ; int a, b \n  --> list [x,y,g ; g = gcd(a,b), ax + by = g] \n  ###Required nsmath.extendedEuclid"]
-
+NSmath_name += ["exEuclid(a,b)"]
+NSmath_variable += ["int a, b"]
+NSmath_return += ["list [x,y,g ; g = gcd(a,b), ax + by = g]"]
+NSmath_require += ["extendedEuclid"]
 
 # L:List の数字から、a個を取り出して並べて、a桁の十進数を作る。そのリストを返す。
 def permutateDecimal(L,a): 
@@ -43,7 +51,10 @@ def permutateDecimal(L,a):
         return [top*(10**(a-1)) + btm for i,top in enumerate(L)
                                       for btm in permutateDecimal(L[:i]+L[i+1:],a-1)]
 
-NSmath_name_list += ["■ permutateDecimal(L,a); list L, num a \n  --> list [num; distinct a decimal digits from L] "]
+NSmath_name += ["permutateDecimal(L,a)"]
+NSmath_variable += ["list L, num a"]
+NSmath_return += ["list [num; distinct a decimal digits from L]"]
+NSmath_require += [0]
 
 # 「L:List の数字から、a個を取り出して並べたリスト」のリストを返す。
 def permutationList(L,a): 
@@ -53,9 +64,12 @@ def permutationList(L,a):
         return [[top] + btm for i,top in enumerate(L)
                                       for btm in permutationList(L[:i]+L[i+1:],a-1)]
 
-NSmath_name_list += ["■ permutationList(L,a); list L, num a \n  --> list [ [l[0], l[1], ..., l[a-1]] ; distinct l[i] s from L] "]
+NSmath_name += ["permutateList(L,a)"]
+NSmath_variable += ["list L, num a"]
+NSmath_return += ["list [ [l[0], l[1], ..., l[a-1]] ; distinct l[i] s from L]"]
+NSmath_require += [0]
 
-
+print NSmath_require
 
 #---------------------------------------------------------------------------------
 
@@ -64,10 +78,15 @@ def help():
     print "----------- NS-math module -----------"
     print
     
-    for explanation in NSmath_name_list:
-        print explanation
+    for i,name in enumerate(NSmath_name):
+        print "■ " + name + " ; " + NSmath_variable[i] 
+        print "  --> " + NSmath_return[i]
+        if NSmath_require[i] != 0:
+            print "    ### Required nsmath." + NSmath_require[i]
         print
 
     print    
     print "--------------------------------------"
     print
+
+
