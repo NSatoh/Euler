@@ -18,7 +18,7 @@ def Euclid(a,b):
     else:
         return Euclid(b,a%b)
 
-NSmath_name_list += ["Euclid(a,b) --> num gcd(a,b)"]
+NSmath_name_list += ["■ Euclid(a,b) ; int a, b \n  --> num gcd(a,b)"]
 
 
 # 拡張ユークリッド互除法： a,b --> x,y; ax + by = g(=gcd(a,b))  
@@ -32,10 +32,28 @@ def extendedEuclid(a,b,x0,x1,y0,y1):     # [x0,x1]=[1,0], [y0,y1]=[0,1] から�
 def exEuclid(a,b):
     return extendedEuclid(a,b,1,0,0,1)
 
-NSmath_name_list += ["exEuclid(a,b) --> list [x,y,g] ; g = gcd(a,b), ax + by = g \n ###Required nsmath.extendedEuclid"]
+NSmath_name_list += ["■ exEuclid(a,b) ; int a, b \n  --> list [x,y,g ; g = gcd(a,b), ax + by = g] \n  ###Required nsmath.extendedEuclid"]
 
 
+# L:List の数字から、a個を取り出して並べて、a桁の十進数を作る。そのリストを返す。
+def permutateDecimal(L,a): 
+    if a == 0:
+        return [0]
+    else:
+        return [top*(10**(a-1)) + btm for i,top in enumerate(L)
+                                      for btm in permutateDecimal(L[:i]+L[i+1:],a-1)]
 
+NSmath_name_list += ["■ permutateDecimal(L,a); list L, num a \n  --> list [num; distinct a decimal digits from L] "]
+
+# 「L:List の数字から、a個を取り出して並べたリスト」のリストを返す。
+def permutationList(L,a): 
+    if a == 0:
+        return [[]]
+    else:
+        return [[top] + btm for i,top in enumerate(L)
+                                      for btm in permutationList(L[:i]+L[i+1:],a-1)]
+
+NSmath_name_list += ["■ permutationList(L,a); list L, num a \n  --> list [ [l[0], l[1], ..., l[a-1]] ; distinct l[i] s from L] "]
 
 
 
@@ -48,6 +66,7 @@ def help():
     
     for explanation in NSmath_name_list:
         print explanation
+        print
 
     print    
     print "--------------------------------------"
