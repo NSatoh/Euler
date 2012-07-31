@@ -23,6 +23,7 @@ def Eratosthenes(n):
 
 prime_list = Eratosthenes(10**6)
 num_strlist = ["1","3","7","9"]
+ans = Eratosthenes(10) # 1桁の素数はどうせ巡回素数
 
 def repeatedPermutationStr(L,a): # L: 文字列のリスト --> a 個の文字を選んで並べた重複順列の文字列
     if a == 0:
@@ -36,17 +37,21 @@ def cyclic(s):
     ss = s + s
     return [ss[i:i+length] for i in range(length)]
 
-ans = [2,3,5,7]
 for digit in range(2,7):
     for i,lead in enumerate(num_strlist):
         kouho_tmp = repeatedPermutationStr(num_strlist[i:],digit-1)
         kouho = [lead + str for str in kouho_tmp] # 巡回的に入れ替えるので、先頭は最小数にしてしまってよい。
-        print kouho
+        #print kouho
         for s in kouho:
             cycles = cyclic(s)
             if all(p in prime_list for p in cycles):
-                ans += [int(p) for p in cycles]
+                ans += [p for p in cycles]
    
-print ans
-print len(ans) # うわあ。劇的に遅い上に、重複があるよ。もとシンプルに変えよう。
+print ans # うわあ。劇的に遅い上に、重複があるよ。もとシンプルに変えよう。
+
+# と、思ったけど、遅いのはマシンのパフォーマンスの問題な気がし始めた。とりあえず、重複を排除して、一応の答えとしておきますか。
+
+kill_repeat = sorted(set(ans), key=ans.index) # 重複削除。並び順は保つことにしてみる。
+print kill_repeat
+print len(kill_repeat) 
 
